@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="2ae467f8-7b72-4d50-8877-758c500764d7" name="API-REST-com-Spring-Boot" url="jdbc:postgresql://localhost:8080/h2-console" driverClass="org.postgresql.Driver" />
+    </data-sources>
+  </component>
+</project>

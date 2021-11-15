@@ -1,15 +1,29 @@
 package apirest.springboot.personapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import apirest.springboot.personapi.entity.Person;
+import apirest.springboot.personapi.repository.PersonRepository;
+import apirest.springboot.personapi.dto.MessageResponseDTO;
+import apirest.springboot.personapi.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/people") /* Caminho principal da API*/
 public class PersonController {
 
-    @GetMapping /*Mapeando usando o metodo GET*/
-    public String getBook(){
-        return "API Test!";
+    private PersonRepository personRepository;
+
+    private PersonService personService;
+
+    @Autowired
+    public PersonController(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus. CREATED)
+    public MessageResponseDTO createPerson(@RequestBody Person person){
+        return personService.createPerson(person);
     }
 }
