@@ -1,29 +1,44 @@
 package apirest.springboot.personapi.controller;
 
-import apirest.springboot.personapi.entity.Person;
-import apirest.springboot.personapi.repository.PersonRepository;
-import apirest.springboot.personapi.dto.MessageResponseDTO;
+import apirest.springboot.personapi.dto.request.PersonDTO;
+import apirest.springboot.personapi.exception.PersonNotFoundException;
+import apirest.springboot.personapi.dto.response.MessageResponseDTO;
 import apirest.springboot.personapi.service.PersonService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people") /* Caminho principal da API*/
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonController {
-
-    private PersonRepository personRepository;
 
     private PersonService personService;
 
-    @Autowired
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+
+
+    @GetMapping
+    public List<PersonDTO> listAll(){
+       return personService.listAll();
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus. CREATED)
-    public MessageResponseDTO createPerson(@RequestBody Person person){
-        return personService.createPerson(person);
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Validated PersonDTO personDTO) throws PersonNotFoundException {
+        return personService.updateById(id, personDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
+        personService.delete(id);
     }
 }

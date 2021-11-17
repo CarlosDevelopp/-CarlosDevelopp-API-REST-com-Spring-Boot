@@ -1,4 +1,4 @@
-package apirest.springboot.personapi.dto;
+package apirest.springboot.personapi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
